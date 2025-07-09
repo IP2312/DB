@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    private static String url = "jdbc:mysql://localhost:3306/world";
+    private static String url = "jdbc:mysql://localhost:3306/pets";
     private static String user = "root";
     private static String password = "9Y9tpOo2bBQpO5";
 
@@ -18,4 +18,13 @@ public class Database {
         connection = DriverManager.getConnection(url, user, password);
         return connection;
     }
+
+//    public static void closeConnection(Connection connection) throws SQLException {
+//        connection.close();
+//    }
+
+//    public static void closePreparedStatement(PreparedStatement preparedStatement) throws SQLException {
+//        preparedStatement.close();
+//    }
+
 }
