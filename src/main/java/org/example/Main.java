@@ -56,10 +56,21 @@ public class Main {
 //        System.out.println(pet);
 
         PetDAO petDAO = new PetDAOImpl();
+        Pet pet;
         try {
-            Pet pet = petDAO.get(4);
+            pet = petDAO.get(4);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(pet);
+        int result = 0;
+        try {
+            result = petDAO.delete(pet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(result);
+
     }
 }
