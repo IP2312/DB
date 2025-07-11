@@ -10,17 +10,35 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
-        Household household = new Household(1, "Adresse2");
-        System.out.println(household);
+        HouseholdDAO householdDAO = new HouseholdDAOImpl();
 
-        HouseholdDAO petDAO = new HouseholdDAOImpl();
+
+        //ask User What to do?
+
+
+
+
+
+
+
+
+
+
+
+        Household household = new Household(1, "Adresse5");
+
+
 
         int result;
         try {
-            result = petDAO.insert(household);
+            result = householdDAO.insert(household);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(result);
+
+    }
+
+    public int sum(int a, int b) {
+        return a + b;
     }
 }

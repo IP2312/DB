@@ -9,8 +9,8 @@ CREATE TABLE if not exists person(
 id INT auto_increment primary key,
 first_name varchar(100) not null,
 last_name varchar(100) not null,
-id_haushold INT,
-foreign key (id_haushold) references haushold(id) on delete cascade
+id_household INT,
+foreign key (id_household) references household(id) on delete cascade
 );
 
 CREATE TABLE if not exists pet(

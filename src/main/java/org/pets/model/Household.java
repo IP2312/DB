@@ -27,6 +27,10 @@ public class Household {
         this.adresse = adresse;
     }
 
+
+
+
+
     @Override
     public String toString() {
         return "household{" +
