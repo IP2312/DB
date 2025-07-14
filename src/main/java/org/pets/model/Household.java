@@ -9,6 +9,13 @@ public class Household {
         this.adresse = adresse;
     }
 
+    public Household(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public Household() {
+    }
+
     public int getId() {
         return id;
     }

@@ -1,7 +1,7 @@
 USE pets;
 CREATE TABLE if not exists household(
   id INT auto_increment primary key,
-  adress varchar(200) NOT NULL
+  address varchar(200) NOT NULL
 ); 
 
 

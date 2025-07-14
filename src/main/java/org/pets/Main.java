@@ -1,44 +1,29 @@
 package org.pets;
 
+import org.pets.controller.HouseholdController;
 import org.pets.dao.HouseholdDAO;
 import org.pets.dao.HouseholdDAOImpl;
-import org.pets.model.Household;
-
-import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-
         HouseholdDAO householdDAO = new HouseholdDAOImpl();
+        HouseholdController householdController = new HouseholdController(householdDAO);
 
 
         //ask User What to do?
 
+        //insert into DB
+
+        String newAddress = "Mattersburgerstraße 35";
+        householdController.createHousehold(newAddress);
+
+        System.out.println("Main: ");
+        System.out.println( householdController.getHouseholdAddress(1));
 
 
 
 
-
-
-
-
-
-
-        Household household = new Household(1, "Adresse5");
-
-
-
-        int result;
-        try {
-            result = householdDAO.insert(household);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 
-    public int sum(int a, int b) {
-        return a + b;
-    }
 }
