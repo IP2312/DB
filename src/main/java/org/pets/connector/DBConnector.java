@@ -1,4 +1,4 @@
-package org.pets.dao;
+package org.pets.connector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

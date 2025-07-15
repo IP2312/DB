@@ -21,3 +21,4 @@ foreign key (id_person) references person(id) on delete cascade
 );
 
 
+SELECT * FROM household;

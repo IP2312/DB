@@ -4,6 +4,8 @@ import org.pets.dao.HouseholdDAO;
 import org.pets.model.Household;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HouseholdController {
     private final HouseholdDAO householdDAO;
@@ -13,19 +15,23 @@ public class HouseholdController {
         this.householdDAO = householdDAO;
     }
 
-    public void createHousehold(String adresse) {
+    public Household createHousehold(String adresse) {
         Household household = new Household(adresse);
         try {
-            householdDAO.insert(household);
+            System.out.println("Household: ");
+            int id = householdDAO.insert(household);
+            household.setId(id);
+            System.out.println(household);
+            return household;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String getHouseholdAddress(int id){
+    public String getHouseholdAddress(int id) {
 
         try {
-           Household household = householdDAO.get(id);
+            Household household = householdDAO.get(id);
             return household.getAdresse();
 
         } catch (SQLException e) {
@@ -33,6 +39,15 @@ public class HouseholdController {
         }
 
     }
+
+    public ArrayList<Household> getAllHouseholds() {
+        try {
+            return householdDAO.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 
