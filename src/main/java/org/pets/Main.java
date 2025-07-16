@@ -21,10 +21,23 @@ public class Main {
 
             Actions action = view.chooseAction();
             switch (action) {
-                case NEW_HOUSEHOLD -> householdController.createHousehold(view.getAddress());
-                case UPDATE_HOUSEHOLD -> view.displayHouseholds(householdController.getAllHouseholds());
-                case DELETE_HOUSEHOLD -> System.out.println("Deleting household...");
-                case EXIT -> exit = true;
+                case NEW_HOUSEHOLD:
+                    householdController.createHousehold(view.getAddress());
+                    break;
+                case UPDATE_HOUSEHOLD:
+                    view.displayHouseholds(householdController.getAllHouseholds());
+                    int householdToUpdate = view.chooseHouseholdId(householdController.getAllHouseholdIds());
+                    householdController.updateHousehold(householdToUpdate, view.getAddress());
+                    break;
+                case DELETE_HOUSEHOLD:
+                    view.displayHouseholds(householdController.getAllHouseholds());
+                    int houseHoldToDelete = view.chooseHouseholdId(householdController.getAllHouseholdIds());
+                    householdController.deleteHousehold(houseHoldToDelete);
+                    break;
+                case NEW_PERSON:
+
+                case EXIT:
+                    exit = true;
             }
         }
 
@@ -32,9 +45,6 @@ public class Main {
 
 //        String newAddress = "Mattersburgerstraße 36";
 //        householdController.createHousehold(newAddress);
-
-
-
 
 
     }

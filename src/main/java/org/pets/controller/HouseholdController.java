@@ -5,7 +5,7 @@ import org.pets.model.Household;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class HouseholdController {
     private final HouseholdDAO householdDAO;
@@ -48,7 +48,28 @@ public class HouseholdController {
         }
     }
 
+    public ArrayList<Integer> getAllHouseholdIds() {
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (Household household : getAllHouseholds()) {
+            ids.add(household.getId());
+        }
+        return ids;
+    }
 
+    public void updateHousehold(int id, String adresse) {
+        Household household = new Household(id, adresse);
+        try {
+            householdDAO.update(household);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-
+    public void deleteHousehold(int id) {
+        try {
+            householdDAO.delete(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

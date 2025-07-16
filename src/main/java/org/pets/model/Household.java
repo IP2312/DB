@@ -13,8 +13,6 @@ public class Household {
         this.adresse = adresse;
     }
 
-    public Household() {
-    }
 
     public int getId() {
         return id;
@@ -40,10 +38,9 @@ public class Household {
 
     @Override
     public String toString() {
-        return "household{" +
+        return "household: " +
                 "id=" + id +
-                ", adresse='" + adresse + '\'' +
-                '}';
+                ", adresse='" + adresse ;
     }
 }
 

@@ -16,6 +16,8 @@ public class View {
             System.out.println("Choose action");
             System.out.println("1. Add Household");
             System.out.println("2. Update Household");
+            System.out.println("3. Delete Household");
+            System.out.println("4. Add Person");
             String input = sc.nextLine().trim();
 
 
@@ -37,6 +39,23 @@ public class View {
         for (Household household : households) {
             System.out.println(household);
         }
+    }
+
+    public int chooseHouseholdId(ArrayList<Integer> possibleIds){
+        int id = 0;
+        boolean validInput = false;
+        while (!validInput){
+            System.out.println("Choose household by id:");
+
+            try{
+                id = Integer.parseInt(sc.nextLine());
+                validInput = possibleIds.contains(id);
+
+            }catch (NumberFormatException e){
+                System.out.println("Invalid input");
+            }
+        }
+        return id;
     }
 
 }

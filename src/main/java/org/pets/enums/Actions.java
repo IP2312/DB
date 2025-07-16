@@ -5,6 +5,7 @@ public enum Actions {
     NEW_HOUSEHOLD("1"),
     UPDATE_HOUSEHOLD("2"),
     DELETE_HOUSEHOLD("3"),
+    NEW_PERSON("4"),
     EXIT("0");
 
     private final String code;

@@ -43,7 +43,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
             ArrayList<Household> households = new ArrayList<>();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String adresse = rs.getString("adresse");
+                String adresse = rs.getString("address");
                 Household household = new Household(id, adresse);
                 households.add(household);
             }
@@ -85,11 +85,29 @@ public class HouseholdDAOImpl implements HouseholdDAO {
 
     @Override
     public int update(Household household) throws SQLException {
-        return 0;
+        String sql = "UPDATE household SET address = ? WHERE id = ?";
+        try (Connection con = DBConnector.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ){
+            ps.setString(1, household.getAdresse());
+            ps.setInt(2, household.getId());
+            return ps.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException("failed to update household to DB", e);
+        }
     }
 
     @Override
-    public int delete(Household household) throws SQLException {
-        return 0;
+    public int delete(int id) throws SQLException {
+        String sql = "DELETE FROM household WHERE id = ?";
+        try (Connection con = DBConnector.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ){
+            ps.setInt(1, id);
+            return ps.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException("failed to delete household to DB", e);
+        }
+
     }
 }

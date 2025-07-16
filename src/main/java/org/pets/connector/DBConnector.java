@@ -26,8 +26,6 @@ public class DBConnector {
             connector = new DBConnector();
 
         }
-
-
         return connector.connection;
     }
 }
