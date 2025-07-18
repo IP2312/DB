@@ -6,7 +6,6 @@ import org.pets.model.Household;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class HouseholdDAOImpl implements HouseholdDAO {
     @Override
@@ -14,7 +13,8 @@ public class HouseholdDAOImpl implements HouseholdDAO {
         String sql = "SELECT address FROM household WHERE id = ?";
         try (
                 Connection con = Database.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);) {
+                PreparedStatement ps = con.prepareStatement(sql)
+        ) {
 
             ps.setInt(1, (id));
             ResultSet rs = ps.executeQuery();
@@ -26,9 +26,6 @@ public class HouseholdDAOImpl implements HouseholdDAO {
                 household = new Household(id, address);
             }
             return household;
-
-        } catch (SQLException e) {
-            throw new RuntimeException("failed to get household from DB", e);
         }
     }
 
@@ -37,7 +34,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
         String sql = "SELECT * FROM household";
         try (
                 Connection con = Database.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
+                PreparedStatement ps = con.prepareStatement(sql)
         ) {
             ResultSet rs = ps.executeQuery();
             ArrayList<Household> households = new ArrayList<>();
@@ -48,8 +45,6 @@ public class HouseholdDAOImpl implements HouseholdDAO {
                 households.add(household);
             }
             return households;
-        }catch (SQLException e){
-            throw new RuntimeException("failed to get all households from DB", e);
         }
 
     }
@@ -60,14 +55,13 @@ public class HouseholdDAOImpl implements HouseholdDAO {
         String sql = "INSERT INTO household (address) VALUES (?)";
         try (
                 Connection con = DBConnector.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
 
 
             ps.setString(1, household.getAdresse());
-
             ps.executeUpdate();
-            int id = 0;
+            int id;
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     id = generatedKeys.getInt(1);
@@ -76,10 +70,6 @@ public class HouseholdDAOImpl implements HouseholdDAO {
                 }
             }
             return id;
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException("faild to insert household to DB", e);
         }
     }
 
@@ -87,13 +77,11 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     public int update(Household household) throws SQLException {
         String sql = "UPDATE household SET address = ? WHERE id = ?";
         try (Connection con = DBConnector.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
+             PreparedStatement ps = con.prepareStatement(sql)
              ){
             ps.setString(1, household.getAdresse());
             ps.setInt(2, household.getId());
             return ps.executeUpdate();
-        }catch (SQLException e){
-            throw new RuntimeException("failed to update household to DB", e);
         }
     }
 
@@ -101,12 +89,10 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     public int delete(int id) throws SQLException {
         String sql = "DELETE FROM household WHERE id = ?";
         try (Connection con = DBConnector.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
+             PreparedStatement ps = con.prepareStatement(sql)
              ){
             ps.setInt(1, id);
             return ps.executeUpdate();
-        }catch (SQLException e){
-            throw new RuntimeException("failed to delete household to DB", e);
         }
 
     }

@@ -13,7 +13,16 @@ public class Person {
         this.householdId = householdId;
     }
 
+
+    public Person(String firstName, String lastName, int householdId) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        this.householdId = householdId;
+    }
+
     public Person(String firstName, String lastName) {
+        setFirstName(firstName);
+        setLastName(lastName);
     }
 
     public int getId() {
