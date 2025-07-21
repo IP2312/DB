@@ -6,6 +6,7 @@ import org.pets.dao.HouseholdDAO;
 import org.pets.dao.HouseholdDAOImpl;
 import org.pets.dao.PersonDAO;
 import org.pets.dao.PersonDAOImpl;
+import org.pets.enums.PersonAttributes;
 import org.pets.model.Person;
 import org.pets.view.View;
 import org.pets.enums.Actions;
@@ -41,14 +42,34 @@ public class Main {
                     householdController.deleteHousehold(houseHoldToDelete);
                     break;
                 case NEW_PERSON:
-                    Person newPerson = view.getNewPersonInfo(householdController.getAllHouseholds(),householdController.getAllHouseholdIds());
+                    Person newPerson = view.getNewPersonInfo(householdController.getAllHouseholds(), householdController.getAllHouseholdIds());
                     personController.createPerson(newPerson);
                     break;
                 case UPDATE_PERSON:
                     view.displayPersonsAndHouseholds(personController.getAllPersonsWithHouseholds());
-                    int personToUpdate = view.chooseId(personController.getAllPersonsIds());
+                    Person personToUpdate = personController.getPerson(view.chooseId(personController.getAllPersonsIds()));
+                    PersonAttributes attributeToUpdate = view.chooseItemToUpdate();
+                    if (attributeToUpdate == PersonAttributes.HOUSEHOLD) {
+                        int idOfHouseholdToUpdate;
+                        if (view.updateExistingHousehold()) {
+                            view.displayHouseholds(householdController.getAllHouseholds());
+                            idOfHouseholdToUpdate = view.chooseId(householdController.getAllHouseholdIds());
+                        } else {
+                            idOfHouseholdToUpdate = householdController.createHousehold(view.getAddress()).getId();
+                        }
+                        personToUpdate.setHouseholdId(idOfHouseholdToUpdate);
+                    } else if (attributeToUpdate == PersonAttributes.FIRST_NAME) {
+                        personToUpdate.setFirstName(view.getNewName());
+                    } else {
+                        personToUpdate.setLastName(view.getNewName());
+                    }
 
-
+                    personController.updatePerson(personToUpdate);
+                    break;
+                    case DELETE_PERSON:
+                        view.displayPersonsAndHouseholds(personController.getAllPersonsWithHouseholds());
+                        Person personToDelete = personController.getPerson(view.chooseId(personController.getAllPersonsIds()));
+                        personController.deletePerson(personToDelete);
 
                 case EXIT:
                     exit = true;

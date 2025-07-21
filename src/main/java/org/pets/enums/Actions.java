@@ -7,6 +7,7 @@ public enum Actions {
     DELETE_HOUSEHOLD("3"),
     NEW_PERSON("4"),
     UPDATE_PERSON("5"),
+    DELETE_PERSON("6"),
     EXIT("0");
 
     private final String code;
@@ -19,7 +20,7 @@ public enum Actions {
         return code;
     }
 
-    public static Actions fromCode(String code) {
+    public static  Actions fromCode(String code) {
         for (Actions action : Actions.values()) {
             if (action.getCode().equals(code)) {
                 return action;

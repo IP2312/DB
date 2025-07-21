@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS pets DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
 USE pets;
 CREATE TABLE if not exists household(
   id INT auto_increment primary key,
@@ -20,5 +23,3 @@ id_person INT,
 foreign key (id_person) references person(id) on delete cascade
 );
 
-
-SELECT * FROM household;

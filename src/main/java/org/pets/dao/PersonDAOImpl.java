@@ -13,13 +13,13 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public Person get(int id) throws SQLException {
         String sql = "SELECT first_name, last_name, id_household FROM person WHERE id = ?";
-        try(
+        try (
                 Connection con = DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)
-                ){
+        ) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 int householdId = rs.getInt("id_household");
@@ -32,13 +32,13 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public ArrayList<Person> getAll() throws SQLException {
         String sql = "SELECT * FROM person";
-        try(
+        try (
                 Connection con = DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)
-                ){
+        ) {
             ResultSet rs = ps.executeQuery();
             ArrayList<Person> persons = new ArrayList<>();
-            while (rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("id");
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
@@ -50,21 +50,21 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public int insert(Person person) throws SQLException{
+    public int insert(Person person) throws SQLException {
         String sql = "INSERT INTO person (first_name, last_name, id_household) VALUES (?, ?,?)";
-        try(
+        try (
                 Connection con = DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
-                ){
+        ) {
             ps.setString(1, person.getFirstName());
             ps.setString(2, person.getLastName());
-            ps.setInt(3,person.getHouseholdId());
+            ps.setInt(3, person.getHouseholdId());
             ps.executeUpdate();
             int id;
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()){
-                if (generatedKeys.next()){
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
                     id = generatedKeys.getInt(1);
-                }else{
+                } else {
                     throw new SQLException("No ID obtained.");
                 }
                 return id;
@@ -75,11 +75,28 @@ public class PersonDAOImpl implements PersonDAO {
 
     @Override
     public int update(Person person) throws SQLException {
-        return 0;
+        String sql = "UPDATE person SET first_name = ?, last_name = ?, id_household = ? WHERE id = ?";
+        try (
+                Connection con = DBConnector.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, person.getFirstName());
+            ps.setString(2, person.getLastName());
+            ps.setInt(3, person.getHouseholdId());
+            ps.setInt(4, person.getId());
+            return ps.executeUpdate();
+        }
+
     }
 
     @Override
     public int delete(int id) throws SQLException {
-        return 0;
+        String sql = "DELETE FROM person WHERE id = ?";
+        try(
+                Connection con = DBConnector.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)
+                ){
+            ps.setInt(1, id);
+            return ps.executeUpdate();
+        }
     }
 }
