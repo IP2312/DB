@@ -65,10 +65,13 @@ public class Main {
 
                     personController.updatePerson(personToUpdate);
                     break;
-                    case DELETE_PERSON:
-                        view.displayPersonsAndHouseholds();
-                        Person personToDelete = personController.getPerson(view.chooseId());
-                        personController.deletePerson(personToDelete);
+                case DELETE_PERSON:
+                    view.displayPersonsAndHouseholds();
+                    Person personToDelete = personController.getPerson(view.chooseId());
+                    personController.deletePerson(personToDelete);
+
+                case NEW_PET:
+
 
                 case EXIT:
                     exit = true;

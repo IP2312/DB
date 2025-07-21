@@ -1,4 +1,6 @@
 package org.pets.dao;
 
-public interface PetDAO {
+import org.pets.model.Pet;
+
+public interface PetDAO extends DAO<Pet>{
 }

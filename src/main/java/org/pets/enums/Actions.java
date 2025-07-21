@@ -8,6 +8,9 @@ public enum Actions {
     NEW_PERSON("4"),
     UPDATE_PERSON("5"),
     DELETE_PERSON("6"),
+    NEW_PET("7"),
+    UPDATE_PET("8"),
+    DELETE_PET("9"),
     EXIT("0");
 
     private final String code;
