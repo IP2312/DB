@@ -17,7 +17,7 @@ public class Main {
         PersonDAO personDAO = new PersonDAOImpl();
         HouseholdController householdController = new HouseholdController(householdDAO);
         PersonController personController = new PersonController(personDAO, householdController);
-        View view = new View();
+        View view = new View(householdController, personController);
 
 
         //ask User What to do?
@@ -32,28 +32,27 @@ public class Main {
                     householdController.createHousehold(view.getAddress());
                     break;
                 case UPDATE_HOUSEHOLD:
-                    view.displayHouseholds(householdController.getAllHouseholds());
-                    int householdToUpdate = view.chooseId(householdController.getAllHouseholdIds());
+                    view.displayHouseholds();
+                    int householdToUpdate = view.chooseId();
                     householdController.updateHousehold(householdToUpdate, view.getAddress());
                     break;
                 case DELETE_HOUSEHOLD:
-                    view.displayHouseholds(householdController.getAllHouseholds());
-                    int houseHoldToDelete = view.chooseId(householdController.getAllHouseholdIds());
-                    householdController.deleteHousehold(houseHoldToDelete);
+                    view.displayHouseholds();
+                    householdController.deleteHousehold(view.chooseId());
                     break;
                 case NEW_PERSON:
-                    Person newPerson = view.getNewPersonInfo(householdController.getAllHouseholds(), householdController.getAllHouseholdIds());
+                    Person newPerson = view.getNewPersonInfo();
                     personController.createPerson(newPerson);
                     break;
                 case UPDATE_PERSON:
-                    view.displayPersonsAndHouseholds(personController.getAllPersonsWithHouseholds());
-                    Person personToUpdate = personController.getPerson(view.chooseId(personController.getAllPersonsIds()));
+                    view.displayPersonsAndHouseholds();
+                    Person personToUpdate = personController.getPerson(view.chooseId());
                     PersonAttributes attributeToUpdate = view.chooseItemToUpdate();
                     if (attributeToUpdate == PersonAttributes.HOUSEHOLD) {
                         int idOfHouseholdToUpdate;
                         if (view.updateExistingHousehold()) {
-                            view.displayHouseholds(householdController.getAllHouseholds());
-                            idOfHouseholdToUpdate = view.chooseId(householdController.getAllHouseholdIds());
+                            view.displayHouseholds();
+                            idOfHouseholdToUpdate = view.chooseId();
                         } else {
                             idOfHouseholdToUpdate = householdController.createHousehold(view.getAddress()).getId();
                         }
@@ -67,8 +66,8 @@ public class Main {
                     personController.updatePerson(personToUpdate);
                     break;
                     case DELETE_PERSON:
-                        view.displayPersonsAndHouseholds(personController.getAllPersonsWithHouseholds());
-                        Person personToDelete = personController.getPerson(view.chooseId(personController.getAllPersonsIds()));
+                        view.displayPersonsAndHouseholds();
+                        Person personToDelete = personController.getPerson(view.chooseId());
                         personController.deletePerson(personToDelete);
 
                 case EXIT:

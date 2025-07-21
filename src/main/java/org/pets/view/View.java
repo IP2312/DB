@@ -1,5 +1,7 @@
 package org.pets.view;
 
+import org.pets.controller.HouseholdController;
+import org.pets.controller.PersonController;
 import org.pets.enums.Actions;
 import org.pets.enums.PersonAttributes;
 import org.pets.model.Household;
@@ -11,6 +13,14 @@ import java.util.Scanner;
 
 public class View {
     Scanner sc = new Scanner(System.in);
+    HouseholdController householdController;
+    PersonController personController;
+
+
+    public View(HouseholdController householdController, PersonController personController) {
+        this.householdController = householdController;
+        this.personController = personController;
+    }
 
     public Actions chooseAction() {
         while (true) {
@@ -34,14 +44,14 @@ public class View {
         return sc.nextLine().trim();
     }
 
-    public void displayHouseholds(ArrayList<Household> households) {
+    public void displayHouseholds() {
         System.out.println("Households: ");
-        for (Household household : households) {
+        for (Household household : householdController.getAllHouseholds()) {
             System.out.println(household);
         }
     }
 
-    public int chooseId(ArrayList<Integer> possibleIds) {
+    public int chooseId() {
         int id = 0;
         boolean validInput = false;
         while (!validInput) {
@@ -49,7 +59,7 @@ public class View {
 
             try {
                 id = Integer.parseInt(sc.nextLine());
-                validInput = possibleIds.contains(id);
+                validInput = householdController.getAllHouseholdIds().contains(id);
 
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input");
@@ -59,20 +69,21 @@ public class View {
     }
 
 
-    public Person getNewPersonInfo(ArrayList<Household> households, ArrayList<Integer> possibleIds) {
+    public Person getNewPersonInfo() {
         System.out.println("Enter first name:");
         String firstName = sc.nextLine().trim();
         System.out.println("Enter last name:");
         String lastName = sc.nextLine().trim();
-        displayHouseholds(households);
-        int chosenHousehold = chooseId(possibleIds);
+        displayHouseholds();
+        int chosenHousehold = chooseId();
         return new Person(firstName, lastName, chosenHousehold);
     }
 
 
-    public void displayPersonsAndHouseholds(ArrayList<HashMap<String, String>> personsHouseholds) {
+    public void displayPersonsAndHouseholds() {
+
         System.out.println("Persons and Households: ");
-        for (HashMap<String, String> personHousehold : personsHouseholds) {
+        for (HashMap<String, String> personHousehold : personController.getAllPersonsWithHouseholds()) {
             System.out.println(personHousehold);
         }
     }
