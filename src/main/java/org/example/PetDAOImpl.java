@@ -10,7 +10,7 @@ import java.util.List;
 public class PetDAOImpl implements PetDAO {
     @Override
     public Pet get(int id) throws SQLException {
-        Connection con = Database.getConnection();
+        Connection con = DBConnector.getConnection();
         Pet pet = null;
         String sql = "SELECT id, name, ownerId, gender, age FROM pet WHERE id = ?";
         PreparedStatement ps = con.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class PetDAOImpl implements PetDAO {
 
     @Override
     public int insert(Pet pet) throws SQLException {
-        Connection con = Database.getConnection();
+        Connection con = DBConnector.getConnection();
 
         String sql = "INSERT INTO pet (name, ownerId, gender, age) VALUES (?, ?, ?, ?)";
 
@@ -61,7 +61,7 @@ public class PetDAOImpl implements PetDAO {
     public int update(Pet pet) throws SQLException {
 
 
-        Connection con = Database.getConnection();
+        Connection con = DBConnector.getConnection();
         String sql = "UPDATE pet SET name = ?, ownerId = ?, gender = ?, age = ? WHERE id = ? ";
 
         PreparedStatement ps = con.prepareStatement(sql);
@@ -80,7 +80,7 @@ public class PetDAOImpl implements PetDAO {
 
     @Override
     public int delete(Pet pet) throws SQLException{
-        Connection con = Database.getConnection();
+        Connection con = DBConnector.getConnection();
 
         String sql = "DELETE FROM pet WHERE id = ?";
 

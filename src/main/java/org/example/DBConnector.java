@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Database {
+public class DBConnector {
     private static String url = "jdbc:mysql://localhost:3306/pets";
     private static String user = "root";
     private static String password = "9Y9tpOo2bBQpO5";
 
-    private Database(){
+    private DBConnector(){
 
     }
 

@@ -5,6 +5,7 @@ import org.pets.controller.PersonController;
 import org.pets.controller.PetController;
 import org.pets.enums.Actions;
 import org.pets.enums.PersonAttributes;
+import org.pets.enums.PetAttributes;
 import org.pets.model.Household;
 import org.pets.model.Person;
 import org.pets.model.Pet;
@@ -107,26 +108,42 @@ public class View {
         }
     }
 
-    public PersonAttributes chooseItemToUpdate() {
-        System.out.println("Choose item to update by Id:");
+    public PersonAttributes choosePersonAttributeToUpdate() {
+        System.out.println("Choose attribute to update by Id:");
         for (PersonAttributes attribute : PersonAttributes.values()) {
-            System.out.println("Id: " + attribute.getId() + "Update:" + attribute.name());
+            System.out.println("Id: " + attribute.getCode() + "Update:" + attribute.name());
         }
 
         while (true) {
             String input = sc.nextLine().trim();
             try {
-                return PersonAttributes.fromId(input);
+                return PersonAttributes.fromCode(input);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    public boolean updateExistingHousehold() {
-        System.out.println("Choose existing household(E) or create new one(N): ");
-        String input = sc.nextLine().trim();
+    public PetAttributes choosePetAttributeToUpdate() {
+        System.out.println("Choose attribute to update by Id:");
+        for (PetAttributes attribute : PetAttributes.values()) {
+            System.out.println("Id: " + attribute.getCode() + "Update:" + attribute.name());
+        }
         while (true) {
+            String input = sc.nextLine().trim();
+            try {
+                return PetAttributes.fromCode(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public boolean updateExisting() {
+        System.out.println("Choose existing(E) or create new one(N): ");
+
+        while (true) {
+            String input = sc.nextLine().trim();
             if (input.equalsIgnoreCase("E")) {
                 System.out.println("Enter household id:");
                 return true;
@@ -142,6 +159,10 @@ public class View {
         return sc.nextLine().trim();
     }
 
+    public String getNewSpecies(){
+        System.out.println("Enter new species");
+        return sc.nextLine().trim();
+    }
 
     public Pet getNewPetInfo() {
         System.out.println("Enter name:");
@@ -153,9 +174,8 @@ public class View {
         boolean validInput = false;
         int chosenPerson = 0;
         do {
-
             if (input.equalsIgnoreCase("E")) {
-                System.out.println("Choose household id:");
+                System.out.println("Choose id:");
                 displayPersonsAndHouseholds();
                 chosenPerson = chooseId(personController.getAllPersonsIds());
                 validInput = true;
@@ -165,16 +185,15 @@ public class View {
                 validInput = true;
             }
         } while (!validInput);
-
         return new Pet(name, species, chosenPerson);
     }
 
-    public void displayPetsAndOwner(){
+    public void displayPetsAndOwner() {
         System.out.println("Pets and owners: ");
         for (HashMap<String, String> petAndOwner : petController.getAllPetsWithOwners()) {
             System.out.println(petAndOwner);
         }
-
     }
+
 
 }

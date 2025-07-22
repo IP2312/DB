@@ -27,6 +27,14 @@ public class PetController {
         }
     }
 
+    public Pet getPet(int id){
+        try{
+            return petDAO.get(id);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public ArrayList<Pet> getAllPets(){
         try{
@@ -34,6 +42,14 @@ public class PetController {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    public ArrayList<Integer> getAllPetsIds(){
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (Pet pet : getAllPets()) {
+            ids.add(pet.getId());
+        }
+        return ids;
     }
    public ArrayList<HashMap<String, String>> getAllPetsWithOwners(){
         ArrayList<HashMap<String, String>> petsWithOwners = new ArrayList<>();
@@ -46,6 +62,22 @@ public class PetController {
             petsWithOwners.add(petWithOwner);
         }
         return petsWithOwners;
+   }
+
+   public void updatePet(Pet pet){
+        try{
+            petDAO.update(pet);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+   }
+
+   public void deletePet(Pet pet){
+        try{
+            petDAO.delete(pet.getId());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
    }
 
 }

@@ -1,6 +1,6 @@
 package org.pets.dao;
 
-import org.example.Database;
+import org.example.DBConnector;
 import org.junit.jupiter.api.Test;
 import org.pets.controller.HouseholdController;
 import org.pets.model.Household;
@@ -45,7 +45,7 @@ public class HouseholdControllerTest {
         ArrayList<Household> households = householdController.getAllHouseholds();
         String sql = "SELECT COUNT(*) FROM household";
         try (
-                Connection con = Database.getConnection();
+                Connection con = DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)
         ){
             ResultSet rs = ps.executeQuery();
@@ -65,7 +65,7 @@ public class HouseholdControllerTest {
         ArrayList<Integer> ids = new ArrayList<>();
         String sql = "Select id from household order by id asc";
         try (
-                Connection con = Database.getConnection();
+                Connection con = DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)
         ){
             ResultSet rs = ps.executeQuery();

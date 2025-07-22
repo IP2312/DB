@@ -1,7 +1,6 @@
 package org.pets.dao;
 
-import org.example.Database;
-import org.pets.connector.DBConnector;
+import org.example.DBConnector;
 import org.pets.model.Household;
 
 import java.sql.*;
@@ -12,7 +11,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     public Household get(int id) throws SQLException {
         String sql = "SELECT address FROM household WHERE id = ?";
         try (
-                Connection con = Database.getConnection();
+                Connection con = DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)
         ) {
 
@@ -33,7 +32,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     public ArrayList<Household> getAll() throws SQLException {
         String sql = "SELECT * FROM household";
         try (
-                Connection con = Database.getConnection();
+                Connection con = DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)
         ) {
             ResultSet rs = ps.executeQuery();
@@ -54,7 +53,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     public int insert(Household household) throws SQLException {
         String sql = "INSERT INTO household (address) VALUES (?)";
         try (
-                Connection con = DBConnector.getConnection();
+                Connection con = org.pets.connector.DBConnector.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
 
@@ -76,7 +75,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     @Override
     public int update(Household household) throws SQLException {
         String sql = "UPDATE household SET address = ? WHERE id = ?";
-        try (Connection con = DBConnector.getConnection();
+        try (Connection con = org.pets.connector.DBConnector.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)
              ){
             ps.setString(1, household.getAdresse());
@@ -88,7 +87,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     @Override
     public int delete(int id) throws SQLException {
         String sql = "DELETE FROM household WHERE id = ?";
-        try (Connection con = DBConnector.getConnection();
+        try (Connection con = org.pets.connector.DBConnector.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)
              ){
             ps.setInt(1, id);

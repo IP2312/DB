@@ -2,7 +2,7 @@ package org.pets.model;
 
 public class Household {
     private int id;
-    private String adresse;
+    private final String adresse;
 
     public Household(int id, String adresse) {
         this.id = id;
@@ -27,10 +27,6 @@ public class Household {
         this.id = id;
     }
 
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
 
 
 
