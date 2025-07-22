@@ -19,7 +19,10 @@ foreign key (id_household) references household(id) on delete cascade
 CREATE TABLE if not exists pet(
 id INT auto_increment primary key,
 namePet varchar(100),
+species varchar(100),
 id_person INT,
 foreign key (id_person) references person(id) on delete cascade
 );
 
+select * from person;
+select * from household;

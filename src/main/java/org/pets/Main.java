@@ -2,12 +2,11 @@ package org.pets;
 
 import org.pets.controller.HouseholdController;
 import org.pets.controller.PersonController;
-import org.pets.dao.HouseholdDAO;
-import org.pets.dao.HouseholdDAOImpl;
-import org.pets.dao.PersonDAO;
-import org.pets.dao.PersonDAOImpl;
+import org.pets.controller.PetController;
+import org.pets.dao.*;
 import org.pets.enums.PersonAttributes;
 import org.pets.model.Person;
+import org.pets.model.Pet;
 import org.pets.view.View;
 import org.pets.enums.Actions;
 
@@ -17,7 +16,8 @@ public class Main {
         PersonDAO personDAO = new PersonDAOImpl();
         HouseholdController householdController = new HouseholdController(householdDAO);
         PersonController personController = new PersonController(personDAO, householdController);
-        View view = new View(householdController, personController);
+        PetController petController = new PetController(new PetDAOImpl(), personController);
+        View view = new View(householdController, personController, petController);
 
 
         //ask User What to do?
@@ -33,12 +33,12 @@ public class Main {
                     break;
                 case UPDATE_HOUSEHOLD:
                     view.displayHouseholds();
-                    int householdToUpdate = view.chooseId();
+                    int householdToUpdate = view.chooseId(householdController.getAllHouseholdIds());
                     householdController.updateHousehold(householdToUpdate, view.getAddress());
                     break;
                 case DELETE_HOUSEHOLD:
                     view.displayHouseholds();
-                    householdController.deleteHousehold(view.chooseId());
+                    householdController.deleteHousehold(view.chooseId(householdController.getAllHouseholdIds()));
                     break;
                 case NEW_PERSON:
                     Person newPerson = view.getNewPersonInfo();
@@ -46,13 +46,13 @@ public class Main {
                     break;
                 case UPDATE_PERSON:
                     view.displayPersonsAndHouseholds();
-                    Person personToUpdate = personController.getPerson(view.chooseId());
+                    Person personToUpdate = personController.getPerson(view.chooseId(personController.getAllPersonsIds()));
                     PersonAttributes attributeToUpdate = view.chooseItemToUpdate();
                     if (attributeToUpdate == PersonAttributes.HOUSEHOLD) {
                         int idOfHouseholdToUpdate;
                         if (view.updateExistingHousehold()) {
                             view.displayHouseholds();
-                            idOfHouseholdToUpdate = view.chooseId();
+                            idOfHouseholdToUpdate = view.chooseId(householdController.getAllHouseholdIds());
                         } else {
                             idOfHouseholdToUpdate = householdController.createHousehold(view.getAddress()).getId();
                         }
@@ -67,10 +67,16 @@ public class Main {
                     break;
                 case DELETE_PERSON:
                     view.displayPersonsAndHouseholds();
-                    Person personToDelete = personController.getPerson(view.chooseId());
+                    Person personToDelete = personController.getPerson(view.chooseId(personController.getAllPersonsIds()));
                     personController.deletePerson(personToDelete);
 
                 case NEW_PET:
+                    Pet newPet = view.getNewPetInfo();
+                    petController.createPet(newPet);
+                    break;
+
+                case UPDATE_PET:
+                    view.displayPetsAndOwner();
 
 
                 case EXIT:

@@ -51,9 +51,8 @@ public class PersonController {
     }
 
     public ArrayList<HashMap<String, String>> getAllPersonsWithHouseholds() {
-        ArrayList<Person> persons = getAllPersons();
         ArrayList<HashMap<String, String>> personsHouseholds = new ArrayList<>();
-        for (Person person : persons) {
+        for (Person person : getAllPersons()) {
             HashMap<String, String> personHousehold = new HashMap<>();
             personHousehold.put("id", String.valueOf(person.getId()));
             personHousehold.put("first_name", person.getFirstName());

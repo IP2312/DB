@@ -2,12 +2,14 @@ package org.pets.view;
 
 import org.pets.controller.HouseholdController;
 import org.pets.controller.PersonController;
+import org.pets.controller.PetController;
 import org.pets.enums.Actions;
 import org.pets.enums.PersonAttributes;
 import org.pets.model.Household;
 import org.pets.model.Person;
 import org.pets.model.Pet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -15,11 +17,13 @@ public class View {
     Scanner sc = new Scanner(System.in);
     HouseholdController householdController;
     PersonController personController;
+    PetController petController;
 
 
-    public View(HouseholdController householdController, PersonController personController) {
+    public View(HouseholdController householdController, PersonController personController, PetController petController) {
         this.householdController = householdController;
         this.personController = personController;
+        this.petController = petController;
     }
 
     public Actions chooseAction() {
@@ -51,7 +55,7 @@ public class View {
         }
     }
 
-    public int chooseId() {
+    public int chooseId(ArrayList<Integer> possibleIds) {
         int id = 0;
         boolean validInput = false;
         while (!validInput) {
@@ -59,7 +63,7 @@ public class View {
 
             try {
                 id = Integer.parseInt(sc.nextLine());
-                validInput = householdController.getAllHouseholdIds().contains(id);
+                validInput = possibleIds.contains(id);
 
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input");
@@ -83,7 +87,7 @@ public class View {
             if (input.equalsIgnoreCase("E")) {
                 System.out.println("Choose household id:");
                 displayHouseholds();
-                chosenHousehold = chooseId();
+                chosenHousehold = chooseId(householdController.getAllHouseholdIds());
                 validInput = true;
 
             } else if (input.equalsIgnoreCase("N")) {
@@ -153,11 +157,11 @@ public class View {
             if (input.equalsIgnoreCase("E")) {
                 System.out.println("Choose household id:");
                 displayPersonsAndHouseholds();
-                chosenPerson= chooseId();
+                chosenPerson = chooseId(personController.getAllPersonsIds());
                 validInput = true;
 
             } else if (input.equalsIgnoreCase("N")) {
-                chosenPerson = personController.createPet(getNewPetInfo()).getId();
+                chosenPerson = personController.createPerson(getNewPersonInfo()).getId();
                 validInput = true;
             }
         } while (!validInput);
@@ -165,5 +169,12 @@ public class View {
         return new Pet(name, species, chosenPerson);
     }
 
+    public void displayPetsAndOwner(){
+        System.out.println("Pets and owners: ");
+        for (HashMap<String, String> petAndOwner : petController.getAllPetsWithOwners()) {
+            System.out.println(petAndOwner);
+        }
+
+    }
 
 }
